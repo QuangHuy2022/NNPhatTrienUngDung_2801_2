@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title th:text="${isEdit} ? 'Sửa Comment' : 'Thêm Comment'">Thêm Comment</title>
+
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-icons.css" rel="stylesheet">
+        <link href="/css/tooplate-gotto-job.css" rel="stylesheet">
+    </head>
+    
+    <body id="top">
+
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    <img src="/images/logo.png" class="img-fluid logo-image">
+                    <strong class="logo-text">Gotto</strong>
+                </a>
+            </div>
+        </nav>
+
+        <main>
+            <section class="hero-section d-flex justify-content-center align-items-center" style="height: 300px;">
+                <div class="section-overlay"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <h1 class="hero-title text-white" th:text="${isEdit} ? 'Cập Nhật Comment' : 'Thêm Comment Mới'"></h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 col-12">
+                            <div class="custom-form p-5 bg-white shadow-lg rounded">
+                                <h2 class="text-center mb-4" th:text="${isEdit} ? 'Sửa Comment' : 'Nhập Comment'"></h2>
+                                
+                                <form action="#" th:action="${isEdit} ? @{/comments/edit/{id}(id=${comment.id})} : @{/comments/add}" th:object="${comment}" method="post" class="mt-4">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-12 mb-3">
+                                            <label for="content" class="form-label fw-bold">Nội dung</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi-chat-text"></i></span>
+                                                <input type="text" th:field="*{content}" id="content" class="form-control" placeholder="Nhập nội dung comment">
+                                            </div>
+                                            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger small mt-1"></p>
+                                        </div>
+
+                                        <div class="col-lg-12 col-12 mb-3">
+                                            <label for="sinhVien" class="form-label fw-bold">Chọn Sinh Viên (Post)</label>
+                                            <select th:field="*{sinhVien}" id="sinhVien" class="form-select">
+                                                <option th:each="sv : ${sinhViens}" th:value="${sv.id}" th:text="${sv.ten} + ' (ID: ' + ${sv.id} + ')'"></option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-lg-12 col-12 mt-4">
+                                            <button type="submit" class="custom-btn btn w-100" th:text="${isEdit} ? 'Cập Nhật' : 'Thêm Mới'"></button>
+                                        </div>
+
+                                        <div class="col-lg-12 col-12 mt-3 text-center">
+                                            <a href="/comments" class="text-secondary text-decoration-none">
+                                                <i class="bi-arrow-left"></i> Quay lại danh sách
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script src="/js/bootstrap.min.js"></script>
+    </body>
+</html>
